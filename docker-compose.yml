@@ -1,0 +1,45 @@
+version: '3'
+services:
+  mongodb-local:
+    container_name: mongodb-local
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=codeb
+      - MONGO_INITDB_ROOT_PASSWORD=timelogger
+    # ports:
+    #   - 27017:27017
+    restart: unless-stopped
+    volumes:
+      - dbdata:/data/db
+
+  timelogger-backend:
+    container_name: timelogger-backend
+    image: codebdocker/timelogger-backend-exe
+    ports:
+      - 8080:8080
+    environment:
+      - DB_URL=mongodb://codeb:timelogger@mongodb-local:27017/timelogger-prod?authSource=admin
+      - COGNITO_USER_POOL_ID=ap-south-1_ljrwbdSsT
+      - COGNITO_CLIENT_ID=32me2b52nqf4bifbatnj65bmbg
+      - AWS_REGION=ap-south-1
+      - AWS_ACCESS_KEY_ID=AKIAXO7CSU4CTJRKSE5C
+      - AWS_SECRET_ACCESS_KEY=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
+      - S3_BUCKET=timelogger-prod
+      - NODE_ENV=production
+      - SENDGRID_KEY=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
+      - WEBSITE_DOMAIN=timelogger-dev.netlify.app
+      - FROM_EMAIL=info@codeb.online
+    links:
+      - mongodb-local
+    depends_on:
+      - mongodb-local
+    restart: unless-stopped
+  timelogger-admin:
+    container_name: timelogger-admin
+    image: codebdocker/timelogger-admin
+    ports:
+      - 3000:80
+    restart: unless-stopped
+
+volumes:
+  dbdata:

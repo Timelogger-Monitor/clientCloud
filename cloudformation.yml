@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: for task trackre cloud setup.
+Parameters:
+  AMI:
+    Type: String
+    Default: ami-0346da7fde1c72952
+    Description: The ubuntu AMI to use.
+
+  AWSRegion:
+    Type: String
+    Default: ap-south-1
+  ServiceName:
+    Type: String
+    # update with the name of the service
+    Default: timelogger-client
+Resources:
+  CognitoUserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+      MfaConfiguration: "OFF"
+      UserPoolName: !Join ["", [!Ref ServiceName, -user-pool]]
+      UsernameAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 6
+          RequireLowercase: False
+          RequireNumbers: False
+          RequireSymbols: False
+          RequireUppercase: False
+  CognitoUserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: !Join ["", [!Ref ServiceName, -user-pool-client]]
+      GenerateSecret: False
+      UserPoolId:
+        Ref: CognitoUserPool  
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      # BucketName: !Ref ServiceName  
+      PublicAccessBlockConfiguration:
+          BlockPublicAcls: True
+          BlockPublicPolicy: True
+          IgnorePublicAcls: True
+          RestrictPublicBuckets: True
+    
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: !Ref AMI
+Outputs:
+  EC2PublicIP:
+    Value: !GetAtt EC2Instance.PublicIp
+  S3BucketPath:
+    Value: !GetAtt Bucket.DomainName
+  CognitoUserPoolID:
+    Value: !GetAtt CognitoUserPool.ProviderName
+  CognitoUserPoolClientID:
+    Value: !Ref CognitoUserPoolClient
