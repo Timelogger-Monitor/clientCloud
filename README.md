@@ -5,3 +5,8 @@ aws cloudformation create-stack --stack-name tl-client-cloud --template-body fil
 # Create Keys
 
 aws ec2 create-key-pair --key-name MyKeyPair -- key-type rsa
+
+
+
+# To delete the stack
+aws cloudformation delete-stack --stack-name tl-client-cloud
