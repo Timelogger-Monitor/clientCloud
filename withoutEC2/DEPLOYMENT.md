@@ -28,6 +28,8 @@ Step 4:
     - Now we need to run the cloudformation command to create AWS services such as "AWS Cognito" and "AWS S3" needed for timelogger.
     - Run command "aws cloudformation create-stack --stack-name tl-client-cloud --template-body file://./cloudformation.yml --capabilities CAPABILITY_NAMED_IAM" 
 
+# FOR Docker Compose
+
 Step 5:
     - The we need update the "docker-compose.yml" file and add the required credentials which are
         1. AWS_ACCESS_KEY_ID  - (This value is from STEP 1)
