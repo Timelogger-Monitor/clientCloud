@@ -19,15 +19,14 @@ services:
       - 8080:8080
     environment:
       - DB_URL=mongodb://codeb:timelogger@mongodb-local:27017/timelogger-prod?authSource=admin
-      - COGNITO_USER_POOL_ID=ap-south-1_ljrwbdSsT
-      - COGNITO_CLIENT_ID=32me2b52nqf4bifbatnj65bmbg
+      - COGNITO_USER_POOL_ID=
+      - COGNITO_CLIENT_ID=
       - AWS_REGION=ap-south-1
-      - AWS_ACCESS_KEY_ID=AKIAXO7CSU4CTJRKSE5C
-      - AWS_SECRET_ACCESS_KEY=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
-      - S3_BUCKET=timelogger-prod
+      - AWS_ACCESS_KEY_ID=
+      - AWS_SECRET_ACCESS_KEY=
+      - S3_BUCKET=
       - NODE_ENV=production
       - SENDGRID_KEY=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
-      - WEBSITE_DOMAIN=timelogger-dev.netlify.app
       - FROM_EMAIL=info@codeb.online
     links:
       - mongodb-local

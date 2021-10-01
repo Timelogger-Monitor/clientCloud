@@ -19,6 +19,5 @@ sleep 3
 echo "docker-compose copy done"
 sleep 2
 echo "running docker-compose on server"
-ssh -i privateKey.pem ubuntu@"${publicip}" -f sudo docker-compose up --build -d
-
+ssh -i privateKey.pem ubuntu@"${publicip}" "sudo docker-compose down ; sudo docker-compose pull ; sudo docker-compose up -d"
 # 13.233.65.104
