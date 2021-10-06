@@ -47,3 +47,27 @@ Step 6:
     - Then run command to deploy all the services on ec2 
     - command "sudo docker-compose up -d"
 
+
+# INSTRUCTIONS FOR EC2
+
+- Install docker and docker compose on EC2 instance
+- To install docker - commands :-("https://docs.docker.com/engine/install/ubuntu")
+        1 - sudo apt-get update
+        2 - sudo apt-get install \ apt-transport-https \ ca-certificates \ curl \ gnupg \ lsb-release
+        3 -  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+        4 - echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+        5 - sudo apt-get update
+        6 - sudo apt-get install docker-ce docker-ce-cli containerd.io
+- To install docker compose - commands :-("https://docs.docker.com/compose/install/")
+        1 -  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+        2 - sudo chmod +x /usr/local/bin/docker-compose
+
+- We need to allow incoming traffic to our EC2 instance on ports 3000 and 8080.
+- To allow these ports go the "security group" of the EC2 instance and click on "Inbound Rules" and click "Edit inbaound rules"
+- Then "add rule" "Custom IP" and add "3000" in port range inside source select "0.0.0.0/0" CIDR block.
+- again "add rule" "Custom IP" and add "8080" in port range inside source select "0.0.0.0/0" CIDR block. and click on "Save rules"
